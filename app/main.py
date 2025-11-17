@@ -1,26 +1,22 @@
 def format_linter_error(error: dict) -> dict:
-    formatted_error = {
+    return {
         "line": error["line_number"],
         "column": error["column_number"],
         "message": error["text"],
         "name": error["code"],
         "source": "flake8"  # Згідно з прикладом, це статичне значення
     }
-    return formatted_error
 
 
 def format_single_linter_file(file_path: str, errors: list) -> dict:
-    formatted_errors = [format_linter_error(error) for error in errors]
-
-    status = "failed" if formatted_errors else "passed"
-
-    report = {
-        "errors": formatted_errors,
+    return {
+        "errors": [
+            format_linter_error(error)
+            for error in errors
+        ],
         "path": file_path,
-        "status": status,
+        "status": "failed" if errors else "passed",
     }
-
-    return report
 
 
 def format_linter_report(linter_report: dict) -> list:
